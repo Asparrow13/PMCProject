@@ -27,13 +27,13 @@ public class MCApp extends Application {
     }
 
     public static void runApplicationTest(){
-        Movie movie = new Movie("shreed", "Action", 4.0, "path/to/file", "2024-07-14");
+        //Movie movie = new Movie("shreed", "Action", (), "path/to/file", "2024-07-14");
 
         DBMovie dbmovie = new DBMovie();
         dbmovie.getAllMovies();
         System.out.println( dbmovie.getMovieById(1).getCategory());
 
-        dbmovie.addMovie(movie);
+        //dbmovie.addMovie(movie);
 
     }
 }
