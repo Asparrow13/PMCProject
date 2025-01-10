@@ -143,6 +143,31 @@ public class DBMovie {
 
     }
 
+    public void updateMovie(int ID, Movie movie) {
+        String query = "UPDATE Movie SET name = ?, rating = ?, category_id = ?, filelink = ?, lastview = ? WHERE id = ?";
+        this.movie = movie;
+        try(Connection connection =  db.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, this.movie.getName());
+            preparedStatement.setFloat(2, this.movie.getRating());
+            preparedStatement.setInt(3, this.movie.getCategory());
+            preparedStatement.setString(4, this.movie.getFilePath());
+            preparedStatement.setDate(5, this.movie.getLastView());
+            preparedStatement.setInt(6, ID);
+            preparedStatement.executeUpdate();
+
+            System.out.println("Movie updated successfully" + movie.toArray());
+
+            db.closeConnection();
+            System.out.println("Connection closed successfully");
+        } catch (SQLException e) {
+            System.out.println("Error while connecting to the database" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
 
 
 }

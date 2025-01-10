@@ -29,12 +29,11 @@ public class MCApp extends Application {
     }
 
     public static void runApplicationTest(){
-//        Date date = new Date(2020,4,2);
-//        Movie movie = new Movie("Inception", 2, 4.2f , "path/to/file", date);
+        //Date date = new Date(2020,4,2);
+        //Movie movie = new Movie(1,"Inception", 2, 4.2f , "path/to/file", date);
 
-        BLCategory blCategory = new BLCategory();
-        BLMovie blMovie = new BLMovie();
-        System.out.println(blCategory.getCategory(2).toArrayList());
+        //BLCategory blCategory = new BLCategory();
+        //BLMovie blMovie = new BLMovie();
 
     }
 }
