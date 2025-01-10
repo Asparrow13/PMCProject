@@ -1,4 +1,4 @@
-package dk.easv.moviecollectionproject.GUI.DAL;
+package dk.easv.moviecollectionproject.DAL;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.sql.Connection;

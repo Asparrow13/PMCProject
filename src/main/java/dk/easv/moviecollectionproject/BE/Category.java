@@ -1,4 +1,4 @@
-package dk.easv.moviecollectionproject.GUI.BE;
+package dk.easv.moviecollectionproject.BE;
 
 public class Category {
     private int id;

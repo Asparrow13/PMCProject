@@ -1,13 +1,12 @@
-package dk.easv.moviecollectionproject.GUI.DAL;
+package dk.easv.moviecollectionproject.DAL;
 
-import dk.easv.moviecollectionproject.GUI.BE.Movie;
+import dk.easv.moviecollectionproject.BE.Movie;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -28,14 +27,14 @@ public class DBMovie {
                 while(resultset.next()){
                     int id = resultset.getInt("id");
                     String name = resultset.getString("name");
-                    String category = resultset.getString("category_id");
+                    int category_id = resultset.getInt("category_id");
                     float rating = resultset.getFloat("rating");
                     String filelink = resultset.getString("filelink");
                     Date lastview = resultset.getDate("lastview");
                     movie.setId(id);
                     movie.setName(name);
                     movie.setRating(rating);
-                    movie.setCategory(category);
+                    movie.setCategory(category_id);
                     movie.setFilePath(filelink);
                     movie.setLastView((java.sql.Date) lastview);
                     movies.add(movie);
@@ -73,14 +72,14 @@ public class DBMovie {
                 while(resultset.next()){
                     int id = resultset.getInt("id");
                     String name = resultset.getString("name");
-                    String category = resultset.getString("category_id");
+                    int category_id = resultset.getInt("category_id");
                     float rating = resultset.getFloat("rating");
                     String filelink = resultset.getString("filelink");
                     Date lastview = resultset.getDate("lastview");
                     movie.setId(id);
                     movie.setName(name);
                     movie.setRating(rating);
-                    movie.setCategory(category);
+                    movie.setCategory(category_id);
                     movie.setFilePath(filelink);
                     movie.setLastView((java.sql.Date) lastview);
 
@@ -101,16 +100,16 @@ public class DBMovie {
     }
 
     public void addMovie(Movie movie) {
-        String query = "INSERT INTO Movie (name,rating,category,filelink,lastview) VALUES (?,?,?,?)";
+        String query = "INSERT INTO Movie (name,rating,category_id,filelink,lastview) VALUES (?,?,?,?,?)";
 
         try(Connection connection = db.getConnection();
               PreparedStatement preparedStatement = connection.prepareStatement(query)){
                 preparedStatement.setString(1, movie.getName());
                 preparedStatement.setFloat(2, movie.getRating());
-                preparedStatement.setString(3, movie.getCategory());
+                preparedStatement.setInt(3, movie.getCategory());
                 preparedStatement.setString(4, movie.getFilePath());
                 preparedStatement.setDate(5,movie.getLastView());
-                preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
         }
         catch (SQLException e) {
             throw new RuntimeException(e);
@@ -118,7 +117,10 @@ public class DBMovie {
         db.closeConnection();
         System.out.println("Connection closed successfully");
         System.out.println("Movie added successfully" + movie.toArray());
+
     }
+
+
 
 }
 

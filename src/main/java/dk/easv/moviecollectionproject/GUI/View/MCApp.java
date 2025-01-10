@@ -1,14 +1,14 @@
 package dk.easv.moviecollectionproject.GUI.View;
 
-import dk.easv.moviecollectionproject.GUI.BE.Movie;
-import dk.easv.moviecollectionproject.GUI.DAL.DBConnector;
-import dk.easv.moviecollectionproject.GUI.DAL.DBMovie;
+import dk.easv.moviecollectionproject.BE.Movie;
+import dk.easv.moviecollectionproject.DAL.DBMovie;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Date;
 
 public class MCApp extends Application {
     @Override
@@ -27,13 +27,14 @@ public class MCApp extends Application {
     }
 
     public static void runApplicationTest(){
-        //Movie movie = new Movie("shreed", "Action", (), "path/to/file", "2024-07-14");
+        Date date = new Date(2020,4,2);
+        Movie movie = new Movie("Inception", 2, 4.2f , "path/to/file", date);
 
         DBMovie dbmovie = new DBMovie();
         dbmovie.getAllMovies();
         System.out.println( dbmovie.getMovieById(1).getCategory());
 
-        //dbmovie.addMovie(movie);
+        dbmovie.addMovie(movie);
 
     }
 }

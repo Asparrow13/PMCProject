@@ -1,4 +1,4 @@
-package dk.easv.moviecollectionproject.GUI.BE;
+package dk.easv.moviecollectionproject.BE;
 
 import java.util.ArrayList;
 import java.sql.Date;
@@ -6,7 +6,7 @@ import java.sql.Date;
 public class Movie {
     private int id;
     private String name;
-    private String category;
+    private int category_id;
     private float rating;
     private String filePath;
     private Date lastView;
@@ -14,10 +14,10 @@ public class Movie {
     public Movie(){
 
     }
-    public Movie(String name, String category, float rating, String filePath, Date lastView) {
+    public Movie(String name, int category_id, float rating, String filePath, Date lastView) {
 
         this.name = name;
-        this.category = category;
+        this.category_id = category_id;
         this.rating = rating;
         this.filePath = filePath;
         this.lastView = lastView;
@@ -38,11 +38,11 @@ public class Movie {
     public void setName(String name) {
         this.name = name;
     }
-    public String getCategory() {
-        return category;
+    public int getCategory() {
+        return category_id;
     }
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategory(int category_id) {
+        this.category_id = category_id;
     }
     public float getRating() {
         return rating;
@@ -68,7 +68,7 @@ public class Movie {
         return "Movie{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
+                ", category='" + category_id + '\'' +
                 ", rating=" + rating +
                 ", filePath='" + filePath + '\'' +
                 ", lastView=" + lastView +
@@ -80,7 +80,7 @@ public class Movie {
         ArrayList<Object> movies = new ArrayList<>();
         movies.add(id);
         movies.add(name);
-        movies.add(category);
+        movies.add(category_id);
         movies.add(rating);
         movies.add(filePath);
         movies.add(lastView);
