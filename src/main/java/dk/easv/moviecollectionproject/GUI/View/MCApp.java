@@ -31,7 +31,7 @@ public class MCApp extends Application {
         Movie movie = new Movie("Inception", 2, 4.2f , "path/to/file", date);
 
         DBMovie dbmovie = new DBMovie();
-        dbmovie.getAllMovies();
+        System.out.println(dbmovie.getAllMovies());
         System.out.println( dbmovie.getMovieById(1).getCategory());
 
         dbmovie.addMovie(movie);

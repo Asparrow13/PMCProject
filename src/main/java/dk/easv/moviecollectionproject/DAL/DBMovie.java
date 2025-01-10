@@ -15,6 +15,7 @@ public class DBMovie {
     Movie movie = new Movie();
 
     public List<Movie> getAllMovies() {
+
         List<Movie> movies = new ArrayList<>();
         String query = "SELECT * FROM Movie";
 
