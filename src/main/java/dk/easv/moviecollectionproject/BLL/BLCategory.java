@@ -23,4 +23,7 @@ public class BLCategory {
     public void removeCategory(int id) {
         dbCategory.removeCategory(id);
     }
+    public void updateCategory(int id, Category name) {
+        dbCategory.updateCategory(id, name);
+    }
 }

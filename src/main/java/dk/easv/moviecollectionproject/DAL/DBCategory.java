@@ -15,41 +15,35 @@ public class DBCategory {
     DBConnector db = new DBConnector();
 
     public List<Category> getAllCategories() {
-        Category category = new Category();
         List<Category> categories = new ArrayList<>();
-
         String query = "SELECT * FROM Category";
 
-        try(Connection connection =  db.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        try (Connection connection = db.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            try(ResultSet resultset = preparedStatement.executeQuery()){
-                System.out.println("executing query " + query);
+            System.out.println("Executing query: " + query);
 
-                while(resultset.next()){
-                    int id = resultset.getInt("id");
-                    String name = resultset.getString("name");
-                    category.setId(id);
-                    category.setName(name);
-                    categories.add(category);
+            while (resultSet.next()) {
+                // Create a new Category object for each row
+                Category category = new Category();
+                category.setId(resultSet.getInt("id"));
+                category.setName(resultSet.getString("name"));
 
-                }
-
-            } catch (SQLException e) {
-                System.out.println("error while executing query " + query);
-                e.printStackTrace();
+                // Add the object to the list
+                categories.add(category);
             }
 
-            db.closeConnection();
-            System.out.println("Connection closed successfully");
-
         } catch (SQLException e) {
-            System.out.println("Error while connecting to the database" + e.getMessage());
-            throw new RuntimeException(e);
+            System.out.println("Error occurred while executing query: " + query);
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching categories", e);
         }
 
+        System.out.println("Connection closed successfully");
         return categories;
     }
+
 
     public Category getCategoryById(int id) {
         Category category = new Category();
@@ -86,6 +80,23 @@ public class DBCategory {
             preparedStatement.setInt(1,id);
             preparedStatement.executeUpdate();
         } catch (SQLException e){
+            System.out.println("error while executing query ");
+            e.printStackTrace();
+        }
+        db.closeConnection();
+        System.out.println("Connection closed successfully");
+    }
+
+    public void updateCategory(int id,Category category) {
+        String query = "UPDATE Category SET name = ? WHERE id = ?";
+
+        try(Connection connection = db.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Updated Category" + category.getName() + " with id " + id);
+        }catch (SQLException e){
             System.out.println("error while executing query ");
             e.printStackTrace();
         }

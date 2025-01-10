@@ -1,5 +1,6 @@
 package dk.easv.moviecollectionproject.GUI.View;
 
+import dk.easv.moviecollectionproject.BE.Category;
 import dk.easv.moviecollectionproject.BE.Movie;
 import dk.easv.moviecollectionproject.BLL.BLMovie;
 import dk.easv.moviecollectionproject.DAL.DBMovie;
@@ -31,9 +32,12 @@ public class MCApp extends Application {
     public static void runApplicationTest(){
         //Date date = new Date(2020,4,2);
         //Movie movie = new Movie(1,"Inception", 2, 4.2f , "path/to/file", date);
-
+        Category category = new Category();
+        category.setName("Anime");
         BLCategory blCategory = new BLCategory();
         //BLMovie blMovie = new BLMovie();
+        blCategory.updateCategory(2, category);
+        System.out.println(blCategory.getAllCategories());
 
 
     }
