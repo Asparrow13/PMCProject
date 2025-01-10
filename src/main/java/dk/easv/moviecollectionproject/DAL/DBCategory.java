@@ -22,15 +22,11 @@ public class DBCategory {
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            System.out.println("Executing query: " + query);
-
             while (resultSet.next()) {
                 // Create a new Category object for each row
                 Category category = new Category();
                 category.setId(resultSet.getInt("id"));
                 category.setName(resultSet.getString("name"));
-
-                // Add the object to the list
                 categories.add(category);
             }
 
@@ -39,7 +35,7 @@ public class DBCategory {
             e.printStackTrace();
             throw new RuntimeException("Error fetching categories", e);
         }
-
+        db.closeConnection();
         System.out.println("Connection closed successfully");
         return categories;
     }
@@ -96,6 +92,23 @@ public class DBCategory {
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
             System.out.println("Updated Category" + category.getName() + " with id " + id);
+        }catch (SQLException e){
+            System.out.println("error while executing query ");
+            e.printStackTrace();
+        }
+        db.closeConnection();
+        System.out.println("Connection closed successfully");
+    }
+
+    public void addCategory(Category category) {
+        String query = "INSERT INTO Category (name, id) VALUES (?, ?)";
+
+        try(Connection connection = db.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setInt(2, category.getId());
+            preparedStatement.executeUpdate();
+            System.out.println("Added Category" + category.getName() + " with id " + category.getId());
         }catch (SQLException e){
             System.out.println("error while executing query ");
             e.printStackTrace();

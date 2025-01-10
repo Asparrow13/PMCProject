@@ -21,6 +21,11 @@ public class BLMovie {
     public void updateMovie(int id, Movie movie){
         dbMovie.updateMovie(id, movie);
     }
+    public void addMovie(Movie movie){
+        dbMovie.addMovie(movie);
+    }
+
+
     public String getMovieName(int id){
         return dbMovie.getMovieById(id).getName();
     }
@@ -41,8 +46,7 @@ public class BLMovie {
         return dbMovie.getMovieById(id).getLastView();
     }
 
-    public void addMovie(Movie movie){
-        dbMovie.addMovie(movie);
-    }
+
+
 
 }

@@ -26,4 +26,7 @@ public class BLCategory {
     public void updateCategory(int id, Category name) {
         dbCategory.updateCategory(id, name);
     }
+    public void addCategory(Category name) {
+        dbCategory.addCategory(name);
+    }
 }
