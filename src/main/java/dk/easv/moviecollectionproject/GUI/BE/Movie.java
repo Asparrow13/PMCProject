@@ -1,6 +1,7 @@
 package dk.easv.moviecollectionproject.GUI.BE;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.sql.Date;
 
 public class Movie {
     private int id;
@@ -10,13 +11,17 @@ public class Movie {
     private String filePath;
     private Date lastView;
 
-    public Movie(int id, String name, String category, float rating, String filePath, Date lastView) {
-        this.id = id;
+    public Movie(){
+
+    }
+    public Movie(String name, String category, float rating, String filePath, Date lastView) {
+
         this.name = name;
         this.category = category;
         this.rating = rating;
         this.filePath = filePath;
-        this.lastView = new Date();
+        this.lastView = lastView;
+
     }
 
     public int getId() {
@@ -51,12 +56,34 @@ public class Movie {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-    public Date getLastView() {
+    public java.sql.Date getLastView() {
         return lastView;
     }
     public void setLastView(Date lastView) {
         this.lastView = lastView;
     }
 
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", rating=" + rating +
+                ", filePath='" + filePath + '\'' +
+                ", lastView=" + lastView +
+                '}';
+    }
 
+
+    public ArrayList<Object> toArray() {
+        ArrayList<Object> movies = new ArrayList<>();
+        movies.add(id);
+        movies.add(name);
+        movies.add(category);
+        movies.add(rating);
+        movies.add(filePath);
+        movies.add(lastView);
+        return movies;
+    }
 }
