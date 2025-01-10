@@ -78,5 +78,20 @@ public class DBCategory {
          return category;
     };
 
+    public void removeCategory(int id) {
+        String query = "DELETE FROM Category WHERE id = ?";
+
+        try(Connection connection = db.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e){
+            System.out.println("error while executing query ");
+            e.printStackTrace();
+        }
+        db.closeConnection();
+        System.out.println("Connection closed successfully");
+    }
+
 
 }

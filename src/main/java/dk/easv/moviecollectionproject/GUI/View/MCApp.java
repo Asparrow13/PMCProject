@@ -32,8 +32,9 @@ public class MCApp extends Application {
         //Date date = new Date(2020,4,2);
         //Movie movie = new Movie(1,"Inception", 2, 4.2f , "path/to/file", date);
 
-        //BLCategory blCategory = new BLCategory();
+        BLCategory blCategory = new BLCategory();
         //BLMovie blMovie = new BLMovie();
+
 
     }
 }

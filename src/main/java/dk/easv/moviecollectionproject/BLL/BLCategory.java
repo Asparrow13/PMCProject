@@ -19,4 +19,8 @@ public class BLCategory {
     public String getCategoryName(int id){
         return dbCategory.getCategoryById(id).getName();
     }
+
+    public void removeCategory(int id) {
+        dbCategory.removeCategory(id);
+    }
 }
