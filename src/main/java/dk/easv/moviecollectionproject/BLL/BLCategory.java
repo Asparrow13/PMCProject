@@ -13,8 +13,10 @@ public class BLCategory {
     }
 
     public Category getCategory(int id) {
-        return dbCategory.getCategoryById(id + 1);
+        return dbCategory.getCategoryById(id);
     }
 
-
+    public String getCategoryName(int id){
+        return dbCategory.getCategoryById(id).getName();
+    }
 }
