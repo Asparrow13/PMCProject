@@ -2,6 +2,7 @@ package dk.easv.moviecollectionproject.BLL;
 import dk.easv.moviecollectionproject.BE.Movie;
 import dk.easv.moviecollectionproject.DAL.DBMovie;
 
+import java.sql.Date;
 import java.util.List;
 
 public class BLMovie {
@@ -18,13 +19,22 @@ public class BLMovie {
     public String getMovieTitle(int id){
         return dbMovie.getMovieById(id).getName();
     }
+
     public float getMovieRating(int id){
         return dbMovie.getMovieById(id).getRating();
     }
+
     public int getMovieCategoryId(int id){
         return dbMovie.getMovieById(id).getCategory();
     }
 
+    public String getMovieFilePath(int id){
+        return dbMovie.getMovieById(id).getFilePath();
+    }
+
+    public Date getMovieLastview(int id){
+        return dbMovie.getMovieById(id).getLastView();
+    }
 
     public void addMovie(Movie movie){
         dbMovie.addMovie(movie);

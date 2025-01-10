@@ -28,8 +28,8 @@ public class DBMovie {
                 while(resultset.next()){
                     int id = resultset.getInt("id");
                     String name = resultset.getString("name");
-                    int category_id = resultset.getInt("category_id");
                     float rating = resultset.getFloat("rating");
+                    int category_id = resultset.getInt("category_id");
                     String filelink = resultset.getString("filelink");
                     Date lastview = resultset.getDate("lastview");
                     movie.setId(id);

@@ -9,6 +9,6 @@ public class MCController {
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Ahhhh");
+        welcomeText.setText("Ahhhh it hurts");
     }
 }

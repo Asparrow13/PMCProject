@@ -2,6 +2,7 @@ package dk.easv.moviecollectionproject.GUI.View;
 
 import dk.easv.moviecollectionproject.BE.Movie;
 import dk.easv.moviecollectionproject.DAL.DBMovie;
+import dk.easv.moviecollectionproject.BLL.BLCategory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,14 +28,11 @@ public class MCApp extends Application {
     }
 
     public static void runApplicationTest(){
-        Date date = new Date(2020,4,2);
-        Movie movie = new Movie("Inception", 2, 4.2f , "path/to/file", date);
+//        Date date = new Date(2020,4,2);
+//        Movie movie = new Movie("Inception", 2, 4.2f , "path/to/file", date);
 
-        DBMovie dbmovie = new DBMovie();
-        System.out.println(dbmovie.getAllMovies());
-        System.out.println( dbmovie.getMovieById(1).getCategory());
-
-        dbmovie.addMovie(movie);
+        BLCategory blCategory = new BLCategory();
+        System.out.println(blCategory.getCategory(2).toArrayList());
 
     }
 }
