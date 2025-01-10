@@ -15,8 +15,11 @@ public class BLMovie {
     public Movie getMovieById(int id){
         return dbMovie.getMovieById(id);
     }
+    public void removeMovie(int id){
+        dbMovie.removeMovie(id);
+    }
 
-    public String getMovieTitle(int id){
+    public String getMovieName(int id){
         return dbMovie.getMovieById(id).getName();
     }
 

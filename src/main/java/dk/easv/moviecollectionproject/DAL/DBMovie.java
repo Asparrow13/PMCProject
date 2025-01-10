@@ -121,6 +121,28 @@ public class DBMovie {
 
     }
 
+    public void removeMovie(int ID) {
+        String query = "DELETE FROM Movie where id = ?";
+
+        try(Connection connection =  db.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setInt(1, ID);
+            preparedStatement.executeUpdate();
+
+            String IDToString = " " + ID;
+            String newQuery =  query.replace(" ?", IDToString);
+            System.out.println("executing query " + newQuery);
+
+            db.closeConnection();
+            System.out.println("Connection closed successfully");
+        } catch (SQLException e) {
+            System.out.println("Error while connecting to the database" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
 
 
 }

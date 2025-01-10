@@ -1,6 +1,7 @@
 package dk.easv.moviecollectionproject.GUI.View;
 
 import dk.easv.moviecollectionproject.BE.Movie;
+import dk.easv.moviecollectionproject.BLL.BLMovie;
 import dk.easv.moviecollectionproject.DAL.DBMovie;
 import dk.easv.moviecollectionproject.BLL.BLCategory;
 import javafx.application.Application;
@@ -32,6 +33,7 @@ public class MCApp extends Application {
 //        Movie movie = new Movie("Inception", 2, 4.2f , "path/to/file", date);
 
         BLCategory blCategory = new BLCategory();
+        BLMovie blMovie = new BLMovie();
         System.out.println(blCategory.getCategory(2).toArrayList());
 
     }
