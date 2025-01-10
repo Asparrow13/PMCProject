@@ -18,7 +18,9 @@ public class BLMovie {
     public void removeMovie(int id){
         dbMovie.removeMovie(id);
     }
-
+    public void updateMovie(int id, Movie movie){
+        dbMovie.updateMovie(id, movie);
+    }
     public String getMovieName(int id){
         return dbMovie.getMovieById(id).getName();
     }

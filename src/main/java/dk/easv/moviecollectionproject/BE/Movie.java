@@ -14,8 +14,8 @@ public class Movie {
     public Movie(){
 
     }
-    public Movie(String name, int category_id, float rating, String filePath, Date lastView) {
-
+    public Movie(int id, String name, int category_id, float rating, String filePath, Date lastView) {
+        this.id = id;
         this.name = name;
         this.category_id = category_id;
         this.rating = rating;
