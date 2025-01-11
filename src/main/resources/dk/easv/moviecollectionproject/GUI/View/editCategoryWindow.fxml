@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <AnchorPane prefHeight="400.0" prefWidth="601.0" style="-fx-background-color: #8897b3">
-        <Label layoutX="142.0" layoutY="122.0" text="Name:"/>
-        <TextField fx:id="playlistNameField" layoutX="203.0" layoutY="117.0" prefHeight="26.0" prefWidth="221.0"
-                   style="-fx-background-color: #E5DFF6;"/>
-        <Button fx:id="editPlaylistBtn" layoutX="498.0" layoutY="349.0" mnemonicParsing="false"
-                text="Edit"/>
+        <Label layoutX="142.0" layoutY="122.0" text="Name:">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font></Label>
+        <TextField fx:id="playlistNameField" layoutX="203.0" layoutY="117.0" prefHeight="26.0" prefWidth="221.0" style="-fx-background-color: #E5DFF6;" />
+        <Button fx:id="createPlaylistBtn" layoutX="450.0" layoutY="343.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit" />
     </AnchorPane>
 </AnchorPane>
