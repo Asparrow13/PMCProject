@@ -168,7 +168,32 @@ public class DBMovie {
 
     }
 
+    public List<Movie> getMovieInCategory(int id){
+        String query = "SELECT * FROM Movie WHERE id = ?";
+        List<Movie> movies = new ArrayList<>();
 
+        try(Connection connection = db.getConnection();
+        PreparedStatement preparestatement = connection.prepareStatement(query);
+        ){
+        preparestatement.setInt(1, id);
+        try(ResultSet resultset = preparestatement.executeQuery()){
+            while (resultset.next()){
+                Movie movie = new Movie();
+                movie.setId(resultset.getInt("id"));
+                movie.setName(resultset.getString("name"));
+                movie.setRating(resultset.getFloat("rating"));
+                movie.setCategory(resultset.getInt("category_id"));
+                movie.setFilePath(resultset.getString("filelink"));
+                movie.setLastView(resultset.getDate("lastview"));
+                movies.add(movie);
+                }
+            }
+        db.closeConnection();
+        System.out.println("Connection closed successfully");
 
+        }catch (SQLException e) {
+            System.out.println("Error while connecting to the database" + e.getMessage());
+        }
+        return movies;
+    }
 }
-

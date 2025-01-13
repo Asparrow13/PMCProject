@@ -46,7 +46,8 @@ public class BLMovie {
         return dbMovie.getMovieById(id).getLastView();
     }
 
-
-
+    public List<Movie> getMovieByCategoryId(int id){
+        return dbMovie.getMovieInCategory(id);
+    }
 
 }
