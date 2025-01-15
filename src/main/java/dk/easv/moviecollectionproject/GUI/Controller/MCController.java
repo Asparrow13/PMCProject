@@ -56,7 +56,7 @@ public class MCController {
         // Load data into models
         movieModel.loadMovies();
         categoryModel.loadCategories();
-        movieInCategoryModel.loadMovieInCategory(1); // Example category ID
+        movieInCategoryModel.loadMovieInCategory(3);
 
         // Bind models to TableViews
         movieTableView.setItems(movieModel.getMovies());

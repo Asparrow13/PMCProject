@@ -2,9 +2,12 @@ package dk.easv.moviecollectionproject.GUI.Model;
 
 import dk.easv.moviecollectionproject.BE.Movie;
 import dk.easv.moviecollectionproject.BLL.BLMovie;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
+
+import java.util.List;
 
 public class MLMovieInCategory {
     private final ObservableList<Movie> movieInCategory = FXCollections.observableArrayList();
@@ -13,6 +16,8 @@ public class MLMovieInCategory {
     public ObservableList<Movie> getMovieInCategory() {
         return movieInCategory;
     }
+
+
 
     public void loadMovieInCategory(int categoryId) {
         movieInCategory.clear();
@@ -24,6 +29,6 @@ public class MLMovieInCategory {
     }
 
     public void configureColumns(TableColumn<Movie, String> categoryMovieColumn) {
-        categoryMovieColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getName()));
+        categoryMovieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
     }
 }
