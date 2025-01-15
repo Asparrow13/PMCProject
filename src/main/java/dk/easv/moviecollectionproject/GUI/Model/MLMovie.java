@@ -1,95 +1,31 @@
 package dk.easv.moviecollectionproject.GUI.Model;
 
 import dk.easv.moviecollectionproject.BE.Movie;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-
-import java.sql.Date;
+import dk.easv.moviecollectionproject.BLL.BLMovie;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
 
 public class MLMovie {
-    private final SimpleIntegerProperty id;
-    private final SimpleStringProperty name;
-    private final SimpleFloatProperty rating;
-    private final SimpleIntegerProperty category;
-    private final SimpleStringProperty filePath;
-    private final SimpleObjectProperty<Date> lastView;
+    private final ObservableList<Movie> movies = FXCollections.observableArrayList();
+    private final BLMovie blMovie = new BLMovie();
 
-    public MLMovie(Movie movie) {
-        this.id = new SimpleIntegerProperty(movie.getId());
-        this.name = new SimpleStringProperty(movie.getName());
-        this.rating = new SimpleFloatProperty(movie.getRating());
-        this.category = new SimpleIntegerProperty(movie.getCategory());
-        this.filePath = new SimpleStringProperty(movie.getFilePath());
-        this.lastView = new SimpleObjectProperty<>(movie.getLastView());
+    public ObservableList<Movie> getMovies() {
+        return movies;
     }
 
-    public int getId() {
-        return id.get();
+    public void loadMovies() {
+        movies.clear();
+        movies.addAll(blMovie.getAllMovie());
     }
 
-    public SimpleIntegerProperty idProperty() {
-        return id;
-    }
-
-    public String getName() {
-        return name.get();
-    }
-
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name.set(name);
-    }
-
-    public float getRating() {
-        return rating.get();
-    }
-
-    public SimpleFloatProperty ratingProperty() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating.set(rating);
-    }
-
-    public int getCategory() {
-        return category.get();
-    }
-
-    public SimpleIntegerProperty categoryProperty() {
-        return category;
-    }
-
-    public void setCategory(int category) {
-        this.category.set(category);
-    }
-
-    public String getFilePath() {
-        return filePath.get();
-    }
-
-    public SimpleStringProperty filePathProperty() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath.set(filePath);
-    }
-
-    public Date getLastView() {
-        return lastView.get();
-    }
-
-    public SimpleObjectProperty<Date> lastViewProperty() {
-        return lastView;
-    }
-
-    public void setLastView(Date lastView) {
-        this.lastView.set(lastView);
+    public void configureColumns(TableColumn<Movie, String> nameColumn,
+                                 TableColumn<Movie, Float> ratingColumn,
+                                 TableColumn<Movie, String> categoryColumn,
+                                 TableColumn<Movie, String> lastViewColumn) {
+        nameColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getName()));
+        ratingColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleFloatProperty(cellData.getValue().getRating()).asObject());
+        categoryColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getCategory())));
+        lastViewColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getLastView())));
     }
 }

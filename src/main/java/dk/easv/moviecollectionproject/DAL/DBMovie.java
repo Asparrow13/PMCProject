@@ -15,35 +15,36 @@ public class DBMovie {
     Movie movie = new Movie();
 
     public List<Movie> getAllMovies() {
-
         List<Movie> movies = new ArrayList<>();
         String query = "SELECT * FROM Movie";
 
-        try(Connection connection =  db.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        try (Connection connection = db.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            try(ResultSet resultset = preparedStatement.executeQuery()){
-                System.out.println("executing query " + query);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                System.out.println("Executing query: " + query);
 
-                while(resultset.next()){
-                    int id = resultset.getInt("id");
-                    String name = resultset.getString("name");
-                    float rating = resultset.getFloat("rating");
-                    int category_id = resultset.getInt("category_id");
-                    String filelink = resultset.getString("filelink");
-                    Date lastview = resultset.getDate("lastview");
-                    movie.setId(id);
-                    movie.setName(name);
-                    movie.setRating(rating);
-                    movie.setCategory(category_id);
-                    movie.setFilePath(filelink);
-                    movie.setLastView((java.sql.Date) lastview);
+                while (resultSet.next()) {
+                    // Create a new Movie object for each row
+                    Movie movie = new Movie();
+
+                    // Set the fields for the movie
+                    movie.setId(resultSet.getInt("id"));
+                    movie.setName(resultSet.getString("name"));
+                    movie.setRating(resultSet.getFloat("rating"));
+                    movie.setCategory(resultSet.getInt("category_id"));
+                    movie.setFilePath(resultSet.getString("filelink"));
+                    movie.setLastView(resultSet.getDate("lastview"));
+
+                    // Add the movie to the list
                     movies.add(movie);
+
+                    // Print the movie details for debugging
                     System.out.println(movie.toArray());
                 }
 
             } catch (SQLException e) {
-                System.out.println("error while executing query " + query);
+                System.out.println("Error while executing query: " + query);
                 e.printStackTrace();
             }
 
@@ -51,12 +52,13 @@ public class DBMovie {
             System.out.println("Connection closed successfully");
 
         } catch (SQLException e) {
-            System.out.println("Error while connecting to the database" + e.getMessage());
+            System.out.println("Error while connecting to the database: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
         return movies;
     }
+
 
     public Movie getMovieById(int ID) {
         String query = "SELECT * FROM Movie where id = ?";

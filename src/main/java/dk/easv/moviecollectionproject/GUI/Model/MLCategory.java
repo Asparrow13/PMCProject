@@ -1,35 +1,25 @@
 package dk.easv.moviecollectionproject.GUI.Model;
 
 import dk.easv.moviecollectionproject.BE.Category;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import dk.easv.moviecollectionproject.BLL.BLCategory;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
 
 public class MLCategory {
-    private final SimpleIntegerProperty id;
-    private final SimpleStringProperty name;
+    private final ObservableList<Category> categories = FXCollections.observableArrayList();
+    private final BLCategory blCategory = new BLCategory();
 
-    public MLCategory(Category category) {
-        this.id = new SimpleIntegerProperty(category.getId());
-        this.name = new SimpleStringProperty(category.getName());
+    public ObservableList<Category> getCategories() {
+        return categories;
     }
 
-    public int getId() {
-        return id.get();
+    public void loadCategories() {
+        categories.clear();
+        categories.addAll(blCategory.getAllCategories());
     }
 
-    public SimpleIntegerProperty idProperty() {
-        return id;
-    }
-
-    public String getName() {
-        return name.get();
-    }
-
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name.set(name);
+    public void configureColumns(TableColumn<Category, String> categoryNameColumn) {
+        categoryNameColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getName()));
     }
 }
