@@ -35,7 +35,7 @@ public class MCApp extends Application {
         Category category = new Category();
         category.setName("Anime");
         BLCategory blCategory = new BLCategory();
-        //BLMovie blMovie = new BLMovie();
+        BLMovie blMovie = new BLMovie();
         blCategory.updateCategory(2, category);
         System.out.println(blCategory.getAllCategories());
 

@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.moviecollectionproject.GUI.Controller.MCController">
 
-    <!-- Songs List -->
+    <!-- Movie List -->
     <TableView fx:id="movieTableView" layoutX="4.0" layoutY="5.0" prefHeight="490.0" prefWidth="589.0">
         <columns>
             <TableColumn fx:id="nameColumn" prefWidth="256.0000247955322" text="Name" />
@@ -28,7 +28,7 @@
         </contextMenu>
     </TableView>
 
-    <!-- Playlist Table -->
+    <!-- Category Table -->
     <TableView fx:id="categoryTableView" layoutX="595.0" layoutY="31.0" prefHeight="185.0" prefWidth="219.0">
         <columns>
             <TableColumn fx:id="categoryNameColumn" prefWidth="208.0" text="Category Name" />
@@ -44,8 +44,8 @@
         </contextMenu>
     </TableView>
 
-    <!-- Songs in Playlist Table -->
-    <TableView fx:id="moviesInCategoryTableView" layoutX="595.0" layoutY="217.0" prefHeight="278.0" prefWidth="219.0">
+    <!-- Movies in Category Table -->
+    <TableView fx:id="movieInCategoryTableView" layoutX="595.0" layoutY="217.0" prefHeight="278.0" prefWidth="219.0">
         <columns>
             <TableColumn fx:id="categoryMovieColumn" prefWidth="208.7999267578125" text="Movie Name" />
         </columns>
