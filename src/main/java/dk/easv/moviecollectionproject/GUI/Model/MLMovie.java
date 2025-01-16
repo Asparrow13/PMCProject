@@ -6,12 +6,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class MLMovie {
     private final ObservableList<Movie> movies = FXCollections.observableArrayList();
     private final BLMovie blMovie = new BLMovie();
 
     public ObservableList<Movie> getMovies() {
+        loadMovies();
         return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies.clear();
+        this.movies.addAll(movies);
     }
 
     public void loadMovies() {
@@ -27,5 +36,16 @@ public class MLMovie {
         ratingColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleFloatProperty(cellData.getValue().getRating()).asObject());
         categoryColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getCategory())));
         lastViewColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getLastView())));
+    }
+
+    // Search
+    public List<Movie> filterMovies(String query) {
+        List<Movie> searchForMovie;
+        searchForMovie = this.blMovie.getAllMovie();
+        return searchForMovie.stream()
+                .filter(movie -> movie.getName().toLowerCase().contains(query.toLowerCase())
+
+                )
+                .collect(Collectors.toList());
     }
 }
