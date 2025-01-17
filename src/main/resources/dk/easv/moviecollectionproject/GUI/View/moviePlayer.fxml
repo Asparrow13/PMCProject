@@ -11,25 +11,25 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="680.0" prefWidth="980.0" style="-fx-background-color: #8897b3;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.moviecollectionproject.GUI.Controller.MCMediaPlayer">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="660.0" style="-fx-background-color: #8897b3;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.moviecollectionproject.GUI.Controller.MCMediaPlayer">
    <children>
       <!-- Media View for displaying the video -->
-      <VBox alignment="TOP_CENTER" prefHeight="540.0" prefWidth="960.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-      <MediaView fx:id="mediaView" fitHeight="540.0" fitWidth="960.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS" />
+      <VBox alignment="TOP_CENTER" prefHeight="360.0" prefWidth="640.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <MediaView fx:id="mediaView" fitHeight="360.0" fitWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS" />
       </VBox>
       <!-- Controls for the video -->
-      <VBox alignment="CENTER" layoutX="0.0" layoutY="400.0" prefHeight="90.0" prefWidth="960.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <VBox alignment="CENTER" layoutX="0.0" layoutY="400.0" prefHeight="90.0" prefWidth="640.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
             <!-- Volume control slider -->
-            <Slider fx:id="durationSlider" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="960.0" VBox.vgrow="ALWAYS" />
+            <Slider fx:id="durationSlider" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="640.0" VBox.vgrow="ALWAYS" />
 
             <!-- Playback control buttons -->
-            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="960.0" spacing="20.0">
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="640.0" spacing="20.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Region prefHeight="50.0" prefWidth="330.0" />
+                  <Region prefHeight="50.0" prefWidth="203.0" />
                   <!-- Skip Backward Button -->
                   <Button fx:id="skipBackwardButton" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#skipBackward" text="⏪">
                      <font>
@@ -50,8 +50,8 @@
                         <Font size="20.0" />
                      </font>
                   </Button>
-                  <Region prefHeight="50.0" prefWidth="138.0" />
-                  <Slider fx:id="volumeSlider" maxWidth="174.0" minWidth="50.0" prefHeight="29.0" prefWidth="174.0" showTickLabels="true" showTickMarks="true" VBox.vgrow="ALWAYS" />
+                  <Region prefHeight="50.0" prefWidth="39.0" />
+                  <Slider fx:id="volumeSlider" maxWidth="174.0" minWidth="50.0" prefHeight="38.0" prefWidth="142.0" showTickLabels="true" showTickMarks="true" VBox.vgrow="ALWAYS" />
                </children>
                <opaqueInsets>
                   <Insets />
