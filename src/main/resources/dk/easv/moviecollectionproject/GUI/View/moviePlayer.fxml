@@ -3,55 +3,64 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.moviecollectionproject.GUI.Controller.MCMediaPlayer">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="680.0" prefWidth="980.0" style="-fx-background-color: #8897b3;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.moviecollectionproject.GUI.Controller.MCMediaPlayer">
    <children>
       <!-- Media View for displaying the video -->
-      <VBox>
-      <MediaView fx:id="mediaView" fitHeight="400.0" fitWidth="820.0" VBox.vgrow="ALWAYS" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+      <VBox alignment="TOP_CENTER" prefHeight="540.0" prefWidth="960.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <MediaView fx:id="mediaView" fitHeight="540.0" fitWidth="960.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS" />
       </VBox>
       <!-- Controls for the video -->
-      <VBox layoutX="0.0" layoutY="400.0" prefHeight="100.0" prefWidth="820.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="0.0" layoutY="400.0" prefHeight="90.0" prefWidth="960.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
             <!-- Volume control slider -->
-            <Slider fx:id="durationSlider" minWidth="200.0" VBox.vgrow="ALWAYS" maxWidth="820.0" />
+            <Slider fx:id="durationSlider" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="960.0" VBox.vgrow="ALWAYS" />
 
             <!-- Playback control buttons -->
-            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="820.0" spacing="20.0">
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="960.0" spacing="20.0">
                <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
+                  <Region prefHeight="50.0" prefWidth="330.0" />
                   <!-- Skip Backward Button -->
-                  <Button fx:id="skipBackwardButton" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" text="⏪" onAction="#skipBackward">
+                  <Button fx:id="skipBackwardButton" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#skipBackward" text="⏪">
                      <font>
-                        <Font size="20.0"/>
+                        <Font size="20.0" />
                      </font>
                   </Button>
 
                   <!-- ToggleButton for Play/Pause -->
-                  <ToggleButton fx:id="playPauseButton" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="▶" textAlignment="CENTER" onAction="#togglePlayPause">
+                  <ToggleButton fx:id="playPauseButton" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#togglePlayPause" text="▶" textAlignment="CENTER">
                      <font>
-                        <Font size="23.0"/>
+                        <Font size="23.0" />
                      </font>
                   </ToggleButton>
 
                   <!-- Skip Forward Button -->
-                  <Button fx:id="skipForwardButton" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" text="⏩" onAction="#skipForward">
+                  <Button fx:id="skipForwardButton" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#skipForward" text="⏩">
                      <font>
-                        <Font size="20.0"/>
+                        <Font size="20.0" />
                      </font>
                   </Button>
-                  <Slider fx:id="volumeSlider" minWidth="50.0" VBox.vgrow="ALWAYS" maxWidth="100.0" />
+                  <Region prefHeight="50.0" prefWidth="138.0" />
+                  <Slider fx:id="volumeSlider" maxWidth="174.0" minWidth="50.0" prefHeight="29.0" prefWidth="174.0" showTickLabels="true" showTickMarks="true" VBox.vgrow="ALWAYS" />
                </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </HBox>
          </children>
       </VBox>
    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </AnchorPane>
