@@ -8,6 +8,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.util.Duration;
 
 public class MCMediaPlayer {
 
@@ -21,6 +22,9 @@ public class MCMediaPlayer {
     private Button skipBackwardButton;
     @FXML
     private Slider volumeSlider;
+
+    @FXML
+    private Slider durationSlider;
 
     private MLMoviePlayer mlMoviePlayer;
     private boolean isPlaying = false;
@@ -38,20 +42,44 @@ public class MCMediaPlayer {
         skipBackwardButton.setOnAction(e -> skipBackward());
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> setVolume(newVal.doubleValue()));
         volumeSlider.setValue(100); // by default the value is on maximum
+
         // Load the media during initialization
         loadMedia();
+
+        // Set up the slider drag event listener
+        durationSlider.setOnMouseDragged(e -> onSliderDrag());
+        durationSlider.setOnMouseReleased(e -> onSliderRelease()); // Optional: We can update once the drag ends
+    }
+
+    // Slider Update Method
+    private void updateSlider() {
+        if (mlMoviePlayer != null && mlMoviePlayer.getMediaPlayer() != null) {
+            Duration currentDuration = mlMoviePlayer.getMediaPlayer().getCurrentTime();
+            durationSlider.setValue(currentDuration.toMillis());  // Set slider value based on current time
+        }
+    }
+
+    // Handle the slider drag event to seek to the new position
+    private void onSliderDrag() {
+        if (mlMoviePlayer != null && mlMoviePlayer.getMediaPlayer() != null) {
+            double newTimeInMillis = durationSlider.getValue();  // Get the new value of the slider (in milliseconds)
+            mlMoviePlayer.getMediaPlayer().seek(Duration.millis(newTimeInMillis));  // Seek to the new position
+        }
+    }
+
+    // Handle the release event after dragging (optional)
+    private void onSliderRelease() {
+        // Optionally, you could do something once the drag ends (e.g., show a confirmation message)
     }
 
     // Toggle Play/Pause state
     @FXML
     private void togglePlayPause() {
+        MediaPlayer mediaPlayer = mlMoviePlayer.getMediaPlayer();
         if (mlMoviePlayer == null || mlMoviePlayer.getMediaPlayer() == null) {
             showAlert("No Media Selected", "Please select a media file to play.");
             return;
         }
-
-        MediaPlayer mediaPlayer = mlMoviePlayer.getMediaPlayer();
-
         if (isPlaying) {
             mediaPlayer.pause();
             playPauseButton.setText("▶");  // Change text to play
@@ -102,20 +130,35 @@ public class MCMediaPlayer {
     @FXML
     public void loadMedia() {
         // Change this path to your local file or hosted .mp4 file
-        String mediaPath =  "movies/new_movie.mp4";
+        String mediaPath = "movies/new_movie.mp4";
 
         if (mediaPath != null) {
             System.out.println("Media path: " + mediaPath);  // Debugging line
             mlMoviePlayer = new MLMoviePlayer(mediaPath);    // Initialize MLMoviePlayer with the media path
-            mediaView.setMediaPlayer(mlMoviePlayer.getMediaPlayer());  // Attach the MediaPlayer to MediaView
 
-            // Set default volume
-            mlMoviePlayer.getMediaPlayer().setVolume(volumeSlider.getValue() / 100.0);
+            // Set MediaPlayer to MediaView after it is ready
+            mlMoviePlayer.getMediaPlayer().setOnReady(() -> {
+                // Ensure the MediaPlayer is fully initialized before adding to MediaView
+                mediaView.setMediaPlayer(mlMoviePlayer.getMediaPlayer());
 
-            // Automatically play the video when loaded (optional)
-            playPauseButton.setText("⏸");
-            togglePlayPause();
-            isPlaying = true;
+                // Set default volume
+                mlMoviePlayer.getMediaPlayer().setVolume(volumeSlider.getValue() / 100.0);
+
+                // Set the total duration for the slider after the media is ready
+                Duration totalDuration = mlMoviePlayer.getMediaPlayer().getMedia().getDuration();
+                durationSlider.setMax(totalDuration.toMillis());  // Update the slider's max value to match the video's duration
+                mlMoviePlayer.getMediaPlayer().seek(Duration.seconds(0)); // Ensure the video starts at the beginning
+
+                // Automatically play the video when loaded
+                playPauseButton.setText("⏸");
+                togglePlayPause();
+                isPlaying = true;
+            });
+
+            // Update the slider as the video plays
+            mlMoviePlayer.getMediaPlayer().currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+                updateSlider();  // Update slider as the video plays
+            });
         } else {
             System.out.println("Media path is null!");  // Debugging line
             showAlert("Error", "Media file not found in resources.");

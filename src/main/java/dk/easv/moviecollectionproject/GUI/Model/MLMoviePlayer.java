@@ -36,6 +36,7 @@ public class MLMoviePlayer {
     }
 
 
+
     public void setVolume(double volume) {
         mediaPlayer.setVolume(volume);
     }
