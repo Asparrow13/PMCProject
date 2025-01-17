@@ -1,17 +1,23 @@
 package dk.easv.moviecollectionproject.GUI.Controller;
 
+import dk.easv.moviecollectionproject.BLL.BLCategory;
+import dk.easv.moviecollectionproject.BLL.BLMovie;
 import dk.easv.moviecollectionproject.GUI.Model.MLCategory;
 import dk.easv.moviecollectionproject.GUI.Model.MLMovie;
 import dk.easv.moviecollectionproject.GUI.Model.MLMovieInCategory;
 import dk.easv.moviecollectionproject.BE.Movie;
 import dk.easv.moviecollectionproject.BE.Category;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -56,14 +62,11 @@ public class MCController {
     private final MLMovie movieModel = new MLMovie();
     private final MLCategory categoryModel = new MLCategory();
     private final MLMovieInCategory movieInCategoryModel = new MLMovieInCategory();
+    private final BLCategory blCategory = new BLCategory();
+    private final BLMovie blMovie = new BLMovie();
+    private final MLMovie movies = new MLMovie();
 
-
-    MovieController movieController = new MovieController();
-    CategoryController categoryController = new CategoryController();
-
-    MLMovie movies = new MLMovie();
-
-
+    private CategoryController categoryController;
 
     @FXML
     public void initialize() {
@@ -82,6 +85,18 @@ public class MCController {
         categoryTableView.setItems(categoryModel.getCategories());
         movieInCategoryTableView.setItems(movieInCategoryModel.getMovieInCategory());
 
+
+        categoryTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) {
+                Category selectedMovie = categoryTableView.getSelectionModel().getSelectedItem();
+                if (selectedMovie != null) {
+                    movieInCategoryTableView.getItems().clear();
+                    ObservableList<Movie> movieInCategory = FXCollections.observableArrayList(blMovie.getMovieByCategoryId(categoryTableView.getSelectionModel().getSelectedItem().getId()));
+                    movieInCategoryTableView.setItems(movieInCategory);
+                }
+            }
+        });
+
         searchField.setOnKeyReleased(event -> onSearchFieldUpdated());
 
         checkLastViewAndRating();
@@ -95,11 +110,9 @@ public class MCController {
     private void onSearchFieldUpdated() {
         String query = searchField.getText();
         if (query.isEmpty()) {
-            // Show all movies if the search field is empty
             movieTableView.setItems(FXCollections.observableArrayList(movies.getMovies()));
             System.out.println("Retrieve all movies to Movies ListView");
         } else {
-            // Filter movies based on the query
             movieTableView.setItems(FXCollections.observableArrayList(movies.filterMovies(query)));
             System.out.println("Searching for " + query);
         }
@@ -107,38 +120,88 @@ public class MCController {
 
     // Movie Management
     public void onPlayMovieClicked() {
-        movieController.onPlayMovieClicked();
+        // Example logic for playing a movie
+        System.out.println("Playing selected movie...");
     }
 
-    public void onAddMovieClicked(){
-        movieController.onAddMovieClicked();
+    public void onAddMovieClicked() {
+        System.out.println("Adding a new movie...");
     }
 
-    public void onEditMovieClicked(){
-        movieController.onEditMovieClicked();
+    public void onEditMovieClicked() {
+        System.out.println("Editing selected movie...");
     }
 
-    public void onDeleteMovieClicked(){
-        movieController.onDeleteMovieClicked();
+    public void onAddCategoryClicked() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/moviecollectionproject/GUI/View/addCategoryWindow.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller for the pop-up window
+            CategoryController categoryController = loader.getController();
+
+            // Set the MCController as a reference in the CategoryController
+            categoryController.setController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Add Category");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
+
+    public void onEditCategoryClicked() {
+    }
+
+
+    public void onDeleteCategoryClicked() {
+        categoryController.onDeleteCategoryClicked(categoryTableView.getSelectionModel().getSelectedItem());
+    }
+
+
 
     // Category Management
-    public void onAddCategoryClicked(){
-        categoryController.onAddCategoryClicked();
+    public void refreshTableView() {
+        movieTableView.getItems().clear();
+        categoryTableView.getItems().clear();
+        movieInCategoryTableView.getItems().clear();
+
+        ObservableList<Movie> moviesObservableList = FXCollections.observableArrayList(movies.getMovies());
+        movieTableView.setItems(moviesObservableList);
+
+        ObservableList<Category> categoryObservable = FXCollections.observableArrayList(blCategory.getAllCategories());
+        categoryTableView.setItems(categoryObservable);
+
+        if(movieInCategoryTableView.getSelectionModel().getSelectedItem() != null) {
+            ObservableList<Movie> movieInCategory = FXCollections.observableArrayList(blMovie.getMovieByCategoryId(movieInCategoryTableView.getSelectionModel().getSelectedItem().getId()));
+            movieInCategoryTableView.setItems(movieInCategory);
+        }
+
+
     }
 
-    public void onEditCategoryClicked(){
-        categoryController.onEditCategoryClicked();
+    public void checkLastViewAndRating() {
+        AtomicBoolean showMsg = new AtomicBoolean(false);
+        movieTableView.getItems().forEach(movie -> {
+            String lastViewDateStr = movie.getLastView().toString();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate lastViewDate = LocalDate.parse(lastViewDateStr, formatter);
+            LocalDate twoYearsAgo = LocalDate.now().minusYears(2);
+            if (lastViewDate.isBefore(twoYearsAgo) && movie.getRating() < 6) {
+                showMsg.set(true);
+            }
+        });
+        if (showMsg.get()) {
+            showAlert("Reminder", "It’s time to clean up your movie collection! Please review and delete any movies with a personal rating below 6 that have not been watched in over 2 years.");
+        }
     }
 
-    public void onDeleteCategoryClicked(){
-        categoryController.onDeleteCategoryClicked();
-    }
-
-
-
-    // Display an alert message
-    @FXML
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setWidth(400);
@@ -149,23 +212,10 @@ public class MCController {
         alert.showAndWait();
     }
 
-    public void checkLastViewAndRating() {
 
-        AtomicBoolean showMsg = new AtomicBoolean(false);
-        movieTableView.getItems().forEach(movie -> {
-            String lastViewDateStr = "";
-            lastViewDateStr =  movie.getLastView().toString();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate lastViewDate = LocalDate.parse(lastViewDateStr, formatter);
-            LocalDate twoYearsAgo = LocalDate.now().minusYears(2);
-            if(lastViewDate.isBefore(twoYearsAgo) && movie.getRating() < 6){
-                showMsg.set(true);
-            }
-        });
-        if(showMsg.get()){
-            showAlert("Reminder", "It’s time to clean up your movie collection! Please review and delete any movies with a personal rating below 6 that have not been watched in over 2 years. Keeping your collection up to date ensures better organization and space efficiency.");
-            showMsg.set(false);
-        }
+    public void onDeleteMovieClicked() {
+        blMovie.removeMovie(movieTableView.getSelectionModel().getSelectedItem().getId());
+        refreshTableView();
 
     }
 }

@@ -1,68 +1,83 @@
 package dk.easv.moviecollectionproject.GUI.Controller;
 
-import dk.easv.moviecollectionproject.BE.Movie;
+import dk.easv.moviecollectionproject.BE.Category;
+import dk.easv.moviecollectionproject.BLL.BLCategory;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class CategoryController {
 
-    public void onAddCategoryClicked() {
-        try {
-
-            // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/moviecollectionproject/GUI/View/addCategoryWindow.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            // Create a new stage (window)
-            Stage newStage = new Stage();
-            newStage.setTitle("Add Category");
-            newStage.setScene(scene);
-            newStage.setResizable(false); // Disable resizing
-            newStage.show();  // Show the new window
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void onEditCategoryClicked() {
-        try {
-            // Load the FXML file for the popup window
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/moviecollectionproject/GUI/View/editCategoryWindow.fxml"));
-            Parent root = loader.load();
-
-            // Get the controller and pass the TableView
-//            MovieController songController = loader.getController();
-//            songController.setMovieTableView(movieTableView);
-
-            // Create and configure the new window
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setResizable(false); // Disable resizing
-            stage.setTitle("Edit Category");
-
-            // Set an on-close event handler
-//            stage.setOnCloseRequest(event -> {
-//                refreshTableView(); // Call a method in the SongController when the window closes
-//            });
-
-            // Show the window
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private final BLCategory blCategory = new BLCategory();
+    private MCController mcController; // Reference to MCController
 
     @FXML
-    public void onDeleteCategoryClicked() {
-//        Movie selectedSong = movieTableView.getSelectionModel().getSelectedItem();
-//        if (selectedSong != null) {
-//            songManager.removeSong(selectedSong);
-//            refreshTableView();
+    private TableView<Category> categoryTableView;
+
+    @FXML
+    private TextField playlistNameField;
+
+    // Set the main MCController instance (this method should be called by MCController)
+    public void setController(MCController mcController) {
+        this.mcController = mcController;
+    }
+
+    // Method to handle the addition of a new category from the TextField
+    public void addCategoryToDB() {
+        String categoryName = playlistNameField.getText();
+
+        if (categoryName.isEmpty()) {
+            // Show some message or warning when the field is empty
+            System.out.println("Category name cannot be empty!");
+            return;
+        }
+
+        Category category = new Category();
+        category.setName(categoryName);
+        blCategory.addCategory(category);
+
+        if (mcController != null) {
+            mcController.refreshTableView(); // Safely call refresh on MCController
+        } else {
+            System.err.println("MCController is not initialized. Cannot refresh table view.");
+        }
+
+        closeStage();  // Close the current stage (pop-up window)
+    }
+
+    // Method to delete the selected category from the TableView
+    public void onDeleteCategoryClicked(Category selectedCategory) {
+        if (selectedCategory != null) {
+            blCategory.removeCategory(selectedCategory.getId());
+            if (mcController != null) {
+                mcController.refreshTableView(); // Refresh the main view
+            } else {
+                System.err.println("MCController is not initialized. Cannot refresh table view.");
+            }
+        } else {
+            System.out.println("No Category Selected for Deletion");
+        }
+    }
+
+    // Helper method to close the current stage (pop-up window)
+    private void closeStage() {
+        Stage currentStage = (Stage) playlistNameField.getScene().getWindow();
+        currentStage.close();
+    }
+
+    // Method to initialize and configure the pop-up window for adding categories (called from MCController)
+    public void initializeAddCategoryWindow() {
+        playlistNameField.clear();  // Clear the text field when the window opens
+    }
+
+    // Optional method to edit an existing category (can be expanded if needed)
+    public void onEditCategoryClicked(Category selectedCategory) {
+        if (selectedCategory != null) {
+            playlistNameField.setText(selectedCategory.getName());
+            // Further editing logic can be implemented here
+        } else {
+            System.out.println("No Category Selected for Editing");
+        }
     }
 }

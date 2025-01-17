@@ -101,14 +101,13 @@ public class DBCategory {
     }
 
     public void addCategory(Category category) {
-        String query = "INSERT INTO Category (name, id) VALUES (?, ?)";
+        String query = "INSERT INTO Category (name) VALUES (?)";
 
         try(Connection connection = db.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1, category.getName());
-            preparedStatement.setInt(2, category.getId());
             preparedStatement.executeUpdate();
-            System.out.println("Added Category" + category.getName() + " with id " + category.getId());
+            System.out.println("Added Category" + category.getName());
         }catch (SQLException e){
             System.out.println("error while executing query ");
             e.printStackTrace();
