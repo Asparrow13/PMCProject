@@ -10,9 +10,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class MCController {
 
@@ -54,6 +59,10 @@ public class MCController {
     private final MLMovie movieModel = new MLMovie();
     private final MLCategory categoryModel = new MLCategory();
     private final MLMovieInCategory movieInCategoryModel = new MLMovieInCategory();
+    String lastViewDateStr = "2020-01-15";
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    LocalDate lastViewDate = LocalDate.parse(lastViewDateStr, formatter);
+    LocalDate twoYearsAgo = LocalDate.now().minusYears(2);
 
     MovieController movieController = new MovieController();
     CategoryController categoryController = new CategoryController();
@@ -78,6 +87,11 @@ public class MCController {
         movieInCategoryTableView.setItems(movieInCategoryModel.getMovieInCategory());
 
         searchField.setOnKeyReleased(event -> onSearchFieldUpdated());
+
+
+        if (lastViewDate.isBefore(twoYearsAgo)) {
+            showAlert("Reminder", "It’s time to clean up your movie collection! Please review and delete any movies with a personal rating below 6 that have not been watched in over 2 years. Keeping your collection up to date ensures better organization and space efficiency.");
+        }
     }
 
     // Search
@@ -96,6 +110,10 @@ public class MCController {
     }
 
     // Movie Management
+    public void onPlayMovieClicked() {
+        movieController.onPlayMovieClicked();
+    }
+
     public void onAddMovieClicked(){
         movieController.onAddMovieClicked();
     }
@@ -121,7 +139,17 @@ public class MCController {
         categoryController.onDeleteCategoryClicked();
     }
 
-    public void onPlayMovieClicked() {
-        movieController.onPlayMovieClicked();
+
+
+    // Display an alert message
+    @FXML
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setWidth(400);
+        alert.setHeight(200);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
