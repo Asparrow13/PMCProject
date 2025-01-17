@@ -20,6 +20,7 @@ public class MCApp extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 820, 500);
         stage.setTitle("Movie Collection Project");
         stage.setScene(scene);
+        stage.setResizable(false); // Disable resizing
         stage.show();
     }
 

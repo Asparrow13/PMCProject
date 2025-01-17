@@ -3,6 +3,7 @@ package dk.easv.moviecollectionproject.GUI.Controller;
 import dk.easv.moviecollectionproject.GUI.Model.MLCategory;
 import dk.easv.moviecollectionproject.GUI.Model.MLMovie;
 import dk.easv.moviecollectionproject.GUI.Model.MLMovieInCategory;
+import dk.easv.moviecollectionproject.GUI.Controller.MovieController;
 import dk.easv.moviecollectionproject.BE.Movie;
 import dk.easv.moviecollectionproject.BE.Category;
 import javafx.collections.FXCollections;
@@ -53,6 +54,7 @@ public class MCController {
     private final MLCategory categoryModel = new MLCategory();
     private final MLMovieInCategory movieInCategoryModel = new MLMovieInCategory();
 
+    MovieController movieController = new MovieController();
     MLMovie movies = new MLMovie();
 
     @FXML
@@ -90,4 +92,15 @@ public class MCController {
         }
     }
 
+    public void onAddMovieClicked(){
+        movieController.onAddMovieClicked();
+    }
+
+    public void onEditMovieClicked(){
+        movieController.onEditMovieClicked();
+    }
+
+    public void onDeleteMovieClicked(){
+        movieController.onDeleteMovieClicked();
+    }
 }
