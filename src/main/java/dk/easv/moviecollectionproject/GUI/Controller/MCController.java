@@ -85,6 +85,18 @@ public class MCController {
         categoryTableView.setItems(categoryModel.getCategories());
         movieInCategoryTableView.setItems(movieInCategoryModel.getMovieInCategory());
 
+
+        categoryTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) {
+                Category selectedMovie = categoryTableView.getSelectionModel().getSelectedItem();
+                if (selectedMovie != null) {
+                    movieInCategoryTableView.getItems().clear();
+                    ObservableList<Movie> movieInCategory = FXCollections.observableArrayList(blMovie.getMovieByCategoryId(categoryTableView.getSelectionModel().getSelectedItem().getId()));
+                    movieInCategoryTableView.setItems(movieInCategory);
+                }
+            }
+        });
+
         searchField.setOnKeyReleased(event -> onSearchFieldUpdated());
 
         checkLastViewAndRating();
@@ -144,18 +156,12 @@ public class MCController {
 
     }
 
-    public void onEditCategoryClicked(ActionEvent actionEvent) {
+    public void onEditCategoryClicked() {
     }
 
 
     public void onDeleteCategoryClicked() {
-        Category selectedCategory = categoryTableView.getSelectionModel().getSelectedItem();
-        if (selectedCategory != null) {
-            blCategory.removeCategory(selectedCategory.getId());
-            refreshTableView(); // Refresh the table view in the main controller
-        } else {
-            System.out.println("No Category Selected");
-        }
+        categoryController.onDeleteCategoryClicked(categoryTableView.getSelectionModel().getSelectedItem());
     }
 
 
@@ -164,12 +170,20 @@ public class MCController {
     public void refreshTableView() {
         movieTableView.getItems().clear();
         categoryTableView.getItems().clear();
+        movieInCategoryTableView.getItems().clear();
 
         ObservableList<Movie> moviesObservableList = FXCollections.observableArrayList(movies.getMovies());
         movieTableView.setItems(moviesObservableList);
 
         ObservableList<Category> categoryObservable = FXCollections.observableArrayList(blCategory.getAllCategories());
         categoryTableView.setItems(categoryObservable);
+
+        if(movieInCategoryTableView.getSelectionModel().getSelectedItem() != null) {
+            ObservableList<Movie> movieInCategory = FXCollections.observableArrayList(blMovie.getMovieByCategoryId(movieInCategoryTableView.getSelectionModel().getSelectedItem().getId()));
+            movieInCategoryTableView.setItems(movieInCategory);
+        }
+
+
     }
 
     public void checkLastViewAndRating() {
