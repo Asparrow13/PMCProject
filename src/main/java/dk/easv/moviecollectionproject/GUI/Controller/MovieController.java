@@ -15,6 +15,25 @@ public class MovieController {
     @FXML
     private TableView<Movie> movieTableView;
 
+    public void onPlayMovieClicked(){
+        try {
+
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/moviecollectionproject/GUI/View/moviePlayer.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Create a new stage (window)
+            Stage newStage = new Stage();
+            newStage.setTitle("Playing Movie");
+            newStage.setScene(scene);
+            newStage.setResizable(false); // Disable resizing
+            newStage.show();  // Show the new window
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onAddMovieClicked() {
         try {
 

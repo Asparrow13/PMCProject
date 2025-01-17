@@ -20,6 +20,7 @@
         <contextMenu>
             <ContextMenu>
                 <items>
+                    <MenuItem mnemonicParsing="false" onAction="#onPlayMovieClicked" text="Play Movie" />
                     <MenuItem mnemonicParsing="false" onAction="#onAddMovieClicked" text="Add Movie" />
                     <MenuItem mnemonicParsing="false" onAction="#onEditMovieClicked" text="Edit Movie" />
                     <MenuItem mnemonicParsing="false" onAction="#onDeleteMovieClicked" text="Delete Movie" />

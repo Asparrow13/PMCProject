@@ -8,6 +8,7 @@ import dk.easv.moviecollectionproject.BE.Movie;
 import dk.easv.moviecollectionproject.BE.Category;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -118,5 +119,9 @@ public class MCController {
 
     public void onDeleteCategoryClicked(){
         categoryController.onDeleteCategoryClicked();
+    }
+
+    public void onPlayMovieClicked() {
+        movieController.onPlayMovieClicked();
     }
 }
