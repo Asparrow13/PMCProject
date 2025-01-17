@@ -3,12 +3,9 @@ package dk.easv.moviecollectionproject.GUI.Controller;
 import dk.easv.moviecollectionproject.GUI.Model.MLCategory;
 import dk.easv.moviecollectionproject.GUI.Model.MLMovie;
 import dk.easv.moviecollectionproject.GUI.Model.MLMovieInCategory;
-import dk.easv.moviecollectionproject.GUI.Controller.MovieController;
 import dk.easv.moviecollectionproject.BE.Movie;
 import dk.easv.moviecollectionproject.BE.Category;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -16,8 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MCController {
 
@@ -59,15 +56,14 @@ public class MCController {
     private final MLMovie movieModel = new MLMovie();
     private final MLCategory categoryModel = new MLCategory();
     private final MLMovieInCategory movieInCategoryModel = new MLMovieInCategory();
-    String lastViewDateStr = "2020-01-15";
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    LocalDate lastViewDate = LocalDate.parse(lastViewDateStr, formatter);
-    LocalDate twoYearsAgo = LocalDate.now().minusYears(2);
+
 
     MovieController movieController = new MovieController();
     CategoryController categoryController = new CategoryController();
 
     MLMovie movies = new MLMovie();
+
+
 
     @FXML
     public void initialize() {
@@ -88,11 +84,11 @@ public class MCController {
 
         searchField.setOnKeyReleased(event -> onSearchFieldUpdated());
 
+        checkLastViewAndRating();
 
-        if (lastViewDate.isBefore(twoYearsAgo)) {
-            showAlert("Reminder", "It’s time to clean up your movie collection! Please review and delete any movies with a personal rating below 6 that have not been watched in over 2 years. Keeping your collection up to date ensures better organization and space efficiency.");
-        }
     }
+
+
 
     // Search
     @FXML
@@ -151,5 +147,25 @@ public class MCController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void checkLastViewAndRating() {
+
+        AtomicBoolean showMsg = new AtomicBoolean(false);
+        movieTableView.getItems().forEach(movie -> {
+            String lastViewDateStr = "";
+            lastViewDateStr =  movie.getLastView().toString();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate lastViewDate = LocalDate.parse(lastViewDateStr, formatter);
+            LocalDate twoYearsAgo = LocalDate.now().minusYears(2);
+            if(lastViewDate.isBefore(twoYearsAgo) && movie.getRating() < 6){
+                showMsg.set(true);
+            }
+        });
+        if(showMsg.get()){
+            showAlert("Reminder", "It’s time to clean up your movie collection! Please review and delete any movies with a personal rating below 6 that have not been watched in over 2 years. Keeping your collection up to date ensures better organization and space efficiency.");
+            showMsg.set(false);
+        }
+
     }
 }
