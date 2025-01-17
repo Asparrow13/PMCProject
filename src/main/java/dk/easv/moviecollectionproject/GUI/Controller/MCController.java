@@ -78,7 +78,6 @@ public class MCController {
         // Load data into models
         movieModel.loadMovies();
         categoryModel.loadCategories();
-        movieInCategoryModel.loadMovieInCategory(3);
 
         // Bind models to TableViews
         movieTableView.setItems(movieModel.getMovies());
@@ -130,6 +129,7 @@ public class MCController {
 
             // Set the MCController as a reference in the CategoryController
             mcMediaPlayer.setController(this);
+            mcMediaPlayer.loadMedia(movieTableView.getSelectionModel().getSelectedItem().getFilePath());
 
             Stage stage = new Stage();
             stage.setTitle("Media Player playing Movie");

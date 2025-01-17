@@ -80,6 +80,7 @@ public class CategoryController {
     private void closeStage() {
         Stage currentStage = (Stage) playlistNameField.getScene().getWindow();
         currentStage.close();
+        mcController.refreshTableView();
     }
 
 

@@ -44,9 +44,6 @@ public class MCMediaPlayer {
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> setVolume(newVal.doubleValue()));
         volumeSlider.setValue(100); // by default the value is on maximum
 
-        // Load the media during initialization
-        loadMedia();
-
         // Set up the slider drag event listener
         durationSlider.setOnMouseDragged(e -> onSliderDrag());
         durationSlider.setOnMouseReleased(e -> onSliderRelease()); // Optional: We can update once the drag ends
@@ -129,9 +126,7 @@ public class MCMediaPlayer {
 
     // Method to load media from a file path
     @FXML
-    public void loadMedia() {
-        // Change this path to your local file or hosted .mp4 file
-        String mediaPath = "movies/new_movie.mp4";
+    public void loadMedia(String mediaPath) {
 
         if (mediaPath != null) {
             System.out.println("Media path: " + mediaPath);  // Debugging line
