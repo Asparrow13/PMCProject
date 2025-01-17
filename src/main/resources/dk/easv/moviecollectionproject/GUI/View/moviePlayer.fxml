@@ -33,21 +33,21 @@
                   <!-- Skip Backward Button -->
                   <Button fx:id="skipBackwardButton" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#skipBackward" text="⏪">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="16.0" />
                      </font>
                   </Button>
 
                   <!-- ToggleButton for Play/Pause -->
                   <ToggleButton fx:id="playPauseButton" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#togglePlayPause" text="▶" textAlignment="CENTER">
                      <font>
-                        <Font size="23.0" />
+                        <Font size="20.0" />
                      </font>
                   </ToggleButton>
 
                   <!-- Skip Forward Button -->
                   <Button fx:id="skipForwardButton" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#skipForward" text="⏩">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="16.0" />
                      </font>
                   </Button>
                   <Region prefHeight="50.0" prefWidth="39.0" />
