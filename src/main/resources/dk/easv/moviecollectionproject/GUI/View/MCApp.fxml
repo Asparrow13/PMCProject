@@ -36,9 +36,9 @@
         <contextMenu>
             <ContextMenu>
                 <items>
-                    <MenuItem mnemonicParsing="false" text="New Category" />
-                    <MenuItem mnemonicParsing="false" text="Edit Category" />
-                    <MenuItem mnemonicParsing="false" text="Delete Category" />
+                    <MenuItem mnemonicParsing="false" onAction="#onAddCategoryClicked" text="Add Category" />
+                    <MenuItem mnemonicParsing="false" onAction="#onEditCategoryClicked" text="Edit Category" />
+                    <MenuItem mnemonicParsing="false" onAction="#onDeleteCategoryClicked" text="Delete Category" />
                 </items>
             </ContextMenu>
         </contextMenu>

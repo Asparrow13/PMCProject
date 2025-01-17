@@ -16,7 +16,7 @@ import java.sql.Date;
 public class MCApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MCApp.class.getResource("moviePlayer.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MCApp.class.getResource("MCApp.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 820, 500);
         stage.setTitle("Movie Collection Project");
         stage.setScene(scene);

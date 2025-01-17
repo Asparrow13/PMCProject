@@ -55,6 +55,8 @@ public class MCController {
     private final MLMovieInCategory movieInCategoryModel = new MLMovieInCategory();
 
     MovieController movieController = new MovieController();
+    CategoryController categoryController = new CategoryController();
+
     MLMovie movies = new MLMovie();
 
     @FXML
@@ -92,6 +94,7 @@ public class MCController {
         }
     }
 
+    // Movie Management
     public void onAddMovieClicked(){
         movieController.onAddMovieClicked();
     }
@@ -102,5 +105,18 @@ public class MCController {
 
     public void onDeleteMovieClicked(){
         movieController.onDeleteMovieClicked();
+    }
+
+    // Category Management
+    public void onAddCategoryClicked(){
+        categoryController.onAddCategoryClicked();
+    }
+
+    public void onEditCategoryClicked(){
+        categoryController.onEditCategoryClicked();
+    }
+
+    public void onDeleteCategoryClicked(){
+        categoryController.onDeleteCategoryClicked();
     }
 }
