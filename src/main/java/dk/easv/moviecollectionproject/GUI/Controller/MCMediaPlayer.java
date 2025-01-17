@@ -28,6 +28,7 @@ public class MCMediaPlayer {
 
     private MLMoviePlayer mlMoviePlayer;
     private boolean isPlaying = false;
+    private MCController mcController;
 
     // Initialize the media player
     @FXML
@@ -163,5 +164,9 @@ public class MCMediaPlayer {
             System.out.println("Media path is null!");  // Debugging line
             showAlert("Error", "Media file not found in resources.");
         }
+    }
+
+    public void setController(MCController mcController) {
+    this.mcController = mcController;
     }
 }

@@ -3,6 +3,7 @@ package dk.easv.moviecollectionproject.GUI.Controller;
 import dk.easv.moviecollectionproject.BE.Category;
 import dk.easv.moviecollectionproject.BLL.BLCategory;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 public class CategoryController {
 
     private final BLCategory blCategory = new BLCategory();
+    public Button createPlaylistBtn;
     private MCController mcController; // Reference to MCController
 
     @FXML
@@ -17,6 +19,9 @@ public class CategoryController {
 
     @FXML
     private TextField playlistNameField;
+    @FXML
+    private TextField editPlaylistNameField;
+
 
     // Set the main MCController instance (this method should be called by MCController)
     public void setController(MCController mcController) {
@@ -46,6 +51,17 @@ public class CategoryController {
         closeStage();  // Close the current stage (pop-up window)
     }
 
+    public void updateCategory() {
+        if (mcController != null) {
+            Category category = new Category();
+            category.setName(editPlaylistNameField.getText());
+            mcController.onEditButtonClicked(category);
+        } else {
+            System.err.println("MCController is not initialized. Cannot update category.");
+        }
+    }
+
+
     // Method to delete the selected category from the TableView
     public void onDeleteCategoryClicked(Category selectedCategory) {
         if (selectedCategory != null) {
@@ -66,15 +82,12 @@ public class CategoryController {
         currentStage.close();
     }
 
-    // Method to initialize and configure the pop-up window for adding categories (called from MCController)
-    public void initializeAddCategoryWindow() {
-        playlistNameField.clear();  // Clear the text field when the window opens
-    }
+
 
     // Optional method to edit an existing category (can be expanded if needed)
     public void onEditCategoryClicked(Category selectedCategory) {
         if (selectedCategory != null) {
-            playlistNameField.setText(selectedCategory.getName());
+            editPlaylistNameField.setText(selectedCategory.getName().toString());
             // Further editing logic can be implemented here
         } else {
             System.out.println("No Category Selected for Editing");

@@ -81,13 +81,5 @@ public class MovieController {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    public void onDeleteMovieClicked() {
-        Movie selectedSong = movieTableView.getSelectionModel().getSelectedItem();
-//        if (selectedSong != null) {
-//            songManager.removeSong(selectedSong);
-//            refreshTableView();
-    }
 }
 

@@ -9,7 +9,6 @@ import dk.easv.moviecollectionproject.BE.Movie;
 import dk.easv.moviecollectionproject.BE.Category;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -65,6 +64,7 @@ public class MCController {
     private final BLCategory blCategory = new BLCategory();
     private final BLMovie blMovie = new BLMovie();
     private final MLMovie movies = new MLMovie();
+    private final MovieController movieController = new MovieController();
 
     private CategoryController categoryController;
 
@@ -121,15 +121,42 @@ public class MCController {
     // Movie Management
     public void onPlayMovieClicked() {
         // Example logic for playing a movie
-        System.out.println("Playing selected movie...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/moviecollectionproject/GUI/View/moviePlayer.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller for the pop-up window
+            MCMediaPlayer mcMediaPlayer = loader.getController();
+
+            // Set the MCController as a reference in the CategoryController
+            mcMediaPlayer.setController(this);
+
+            Stage stage = new Stage();
+            stage.setTitle("Media Player playing Movie");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onAddMovieClicked() {
-        System.out.println("Adding a new movie...");
+        movieController.onAddMovieClicked();
+
     }
 
     public void onEditMovieClicked() {
-        System.out.println("Editing selected movie...");
+        movieController.onEditMovieClicked();
+    }
+    public void onEditButtonClicked(Category name) {
+        Category selectedItem = categoryTableView.getSelectionModel().getSelectedItem();
+        blCategory.updateCategory(selectedItem.getId(), name);
+
+    }
+    public void onDeleteMovieClicked() {
+        blMovie.removeMovie(movieTableView.getSelectionModel().getSelectedItem().getId());
+        refreshTableView();
     }
 
     public void onAddCategoryClicked() {
@@ -157,11 +184,49 @@ public class MCController {
     }
 
     public void onEditCategoryClicked() {
+        try {
+            // Load the FXML file for the edit category window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/moviecollectionproject/GUI/View/editCategoryWindow.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller for the pop-up window
+            CategoryController categoryController = loader.getController();
+
+            // Ensure the MCController reference is set properly in the CategoryController
+            categoryController.setController(this);
+
+            // Get the selected category from the categoryTableView
+            Category selectedCategory = categoryTableView.getSelectionModel().getSelectedItem();
+
+            // If a category is selected, pass it to the CategoryController
+            if (selectedCategory != null) {
+                categoryController.onEditCategoryClicked(selectedCategory);  // Pass the selected category for editing
+            } else {
+                System.out.println("No category selected for editing.");
+                return;
+            }
+
+            // Open the edit category window as a pop-up
+            Stage stage = new Stage();
+            stage.setTitle("Edit Category");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
+
+
     public void onDeleteCategoryClicked() {
-        categoryController.onDeleteCategoryClicked(categoryTableView.getSelectionModel().getSelectedItem());
+        Category selectedCategory = categoryTableView.getSelectionModel().getSelectedItem();
+        if (selectedCategory != null) {
+            blCategory.removeCategory(selectedCategory.getId());
+            refreshTableView();
+        }
     }
 
 
@@ -213,9 +278,5 @@ public class MCController {
     }
 
 
-    public void onDeleteMovieClicked() {
-        blMovie.removeMovie(movieTableView.getSelectionModel().getSelectedItem().getId());
-        refreshTableView();
 
-    }
 }
