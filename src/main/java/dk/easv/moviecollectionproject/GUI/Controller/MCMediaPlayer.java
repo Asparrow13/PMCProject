@@ -10,6 +10,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.nio.file.Path;
+
 public class MCMediaPlayer {
 
     @FXML
@@ -93,7 +96,7 @@ public class MCMediaPlayer {
     private void skipForward() {
         if (mlMoviePlayer != null) {
             MediaPlayer mediaPlayer = mlMoviePlayer.getMediaPlayer();
-            mediaPlayer.seek(mediaPlayer.getCurrentTime().add(javafx.util.Duration.seconds(10)));  // Skip forward 10 seconds
+            mediaPlayer.seek(mediaPlayer.getCurrentTime().add(Duration.seconds(10)));  // Skip forward 10 seconds
         }
     }
 
@@ -102,7 +105,7 @@ public class MCMediaPlayer {
     private void skipBackward() {
         if (mlMoviePlayer != null) {
             MediaPlayer mediaPlayer = mlMoviePlayer.getMediaPlayer();
-            mediaPlayer.seek(mediaPlayer.getCurrentTime().subtract(javafx.util.Duration.seconds(10)));  // Skip backward 10 seconds
+            mediaPlayer.seek(mediaPlayer.getCurrentTime().subtract(Duration.seconds(10)));  // Skip backward 10 seconds
         }
     }
 
@@ -129,32 +132,37 @@ public class MCMediaPlayer {
     public void loadMedia(String mediaPath) {
 
         if (mediaPath != null) {
-            System.out.println("Media path: " + mediaPath);  // Debugging line
-            mlMoviePlayer = new MLMoviePlayer(mediaPath);    // Initialize MLMoviePlayer with the media path
+            File file = new File(mediaPath);
+            if(!file.exists()){
+                System.out.println("File Not Found");
+            }else {
+                System.out.println("Media path: " + mediaPath);  // Debugging line
+                mlMoviePlayer = new MLMoviePlayer(mediaPath);    // Initialize MLMoviePlayer with the media path
 
-            // Set MediaPlayer to MediaView after it is ready
-            mlMoviePlayer.getMediaPlayer().setOnReady(() -> {
-                // Ensure the MediaPlayer is fully initialized before adding to MediaView
-                mediaView.setMediaPlayer(mlMoviePlayer.getMediaPlayer());
+                // Set MediaPlayer to MediaView after it is ready
+                mlMoviePlayer.getMediaPlayer().setOnReady(() -> {
+                    // Ensure the MediaPlayer is fully initialized before adding to MediaView
+                    mediaView.setMediaPlayer(mlMoviePlayer.getMediaPlayer());
 
-                // Set default volume
-                mlMoviePlayer.getMediaPlayer().setVolume(volumeSlider.getValue() / 100.0);
+                    // Set default volume
+                    mlMoviePlayer.getMediaPlayer().setVolume(volumeSlider.getValue() / 100.0);
 
-                // Set the total duration for the slider after the media is ready
-                Duration totalDuration = mlMoviePlayer.getMediaPlayer().getMedia().getDuration();
-                durationSlider.setMax(totalDuration.toMillis());  // Update the slider's max value to match the video's duration
-                mlMoviePlayer.getMediaPlayer().seek(Duration.seconds(0)); // Ensure the video starts at the beginning
+                    // Set the total duration for the slider after the media is ready
+                    Duration totalDuration = mlMoviePlayer.getMediaPlayer().getMedia().getDuration();
+                    durationSlider.setMax(totalDuration.toMillis());  // Update the slider's max value to match the video's duration
+                    mlMoviePlayer.getMediaPlayer().seek(Duration.seconds(0)); // Ensure the video starts at the beginning
 
-                // Automatically play the video when loaded
-                playPauseButton.setText("⏸");
-                togglePlayPause();
-                isPlaying = true;
-            });
+                    // Automatically play the video when loaded
+                    playPauseButton.setText("⏸");
+                    togglePlayPause();
+                    isPlaying = true;
+                });
 
-            // Update the slider as the video plays
-            mlMoviePlayer.getMediaPlayer().currentTimeProperty().addListener((observable, oldValue, newValue) -> {
-                updateSlider();  // Update slider as the video plays
-            });
+                // Update the slider as the video plays
+                mlMoviePlayer.getMediaPlayer().currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+                    updateSlider();  // Update slider as the video plays
+                });
+            }
         } else {
             System.out.println("Media path is null!");  // Debugging line
             showAlert("Error", "Media file not found in resources.");

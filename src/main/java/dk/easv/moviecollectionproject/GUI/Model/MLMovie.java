@@ -9,9 +9,11 @@ import javafx.scene.control.TableColumn;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MLMovie {
+public class MLMovie extends BLMovie {
     private final ObservableList<Movie> movies = FXCollections.observableArrayList();
     private final BLMovie blMovie = new BLMovie();
+
+
 
     public ObservableList<Movie> getMovies() {
         loadMovies();

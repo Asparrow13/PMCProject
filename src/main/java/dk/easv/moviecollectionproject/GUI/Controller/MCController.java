@@ -143,9 +143,9 @@ public class MCController {
 
     public void onAddMovieClicked() {
         movieController.onAddMovieClicked();
-
     }
 
+    //edit pop up window FXML methods
     public void onEditMovieClicked() {
         movieController.onEditMovieClicked();
     }
@@ -154,6 +154,8 @@ public class MCController {
         blCategory.updateCategory(selectedItem.getId(), name);
 
     }
+
+    // movie menuItems
     public void onDeleteMovieClicked() {
         blMovie.removeMovie(movieTableView.getSelectionModel().getSelectedItem().getId());
         refreshTableView();
@@ -217,9 +219,6 @@ public class MCController {
             e.printStackTrace();
         }
     }
-
-
-
 
     public void onDeleteCategoryClicked() {
         Category selectedCategory = categoryTableView.getSelectionModel().getSelectedItem();

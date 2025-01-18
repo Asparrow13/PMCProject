@@ -1,20 +1,40 @@
 package dk.easv.moviecollectionproject.GUI.Controller;
 
 import dk.easv.moviecollectionproject.BE.Movie;
+import dk.easv.moviecollectionproject.GUI.Model.MLMovie;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Date;
 
 public class MovieController {
 
     @FXML
     private TableView<Movie> movieTableView;
 
+    @FXML
+    private Button editMovieBtn;
+    @FXML
+    private TextField movieNameField;
+    @FXML
+    private TextField movieCategoryField;
+    @FXML
+    private TextField movieRatingField;
+    @FXML
+    private TextField movieFilePathField;
+
+
+
+
+
+    @FXML
     public void onPlayMovieClicked(){
         try {
 
@@ -34,6 +54,7 @@ public class MovieController {
         }
     }
 
+    @FXML
     public void onAddMovieClicked() {
         try {
 
@@ -80,6 +101,24 @@ public class MovieController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void moviaCatalog(){
+
+    }
+    @FXML
+    public void onAddButtonClicked() {
+        Movie movie = new Movie();
+        MLMovie mlMovie = new MLMovie();
+    if(movieNameField.getText() != null && movieCategoryField.getText() != null && movieRatingField.getText() != null && movieFilePathField.getText() != null){
+        movie.setName(movieNameField.getText());
+        movie.setCategory(Integer.parseInt(movieCategoryField.getText()));
+        movie.setRating(Float.parseFloat(movieRatingField.getText()));
+        movie.setFilePath(movieFilePathField.getText());
+        movie.setLastView(Date.valueOf("2021-01-17"));
+        mlMovie.addMovie(movie);
+    }
     }
 }
 
